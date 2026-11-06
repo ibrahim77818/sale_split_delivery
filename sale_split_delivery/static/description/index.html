@@ -1,0 +1,179 @@
+<!-- Odoo Apps description page for sale_split_delivery (Odoo 16.0). Inline styles only: apps.odoo.com strips <style> and <script> blocks. -->
+<section style="max-width:1120px;margin:0 auto;padding:0 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#2b2b33;">
+
+<!-- ============================== HERO ============================== -->
+<div style="background:linear-gradient(120deg,#017E84 0%,#3d6b78 45%,#714B67 100%);border-radius:18px;padding:48px 40px 40px;color:#ffffff;margin-top:12px;">
+  <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;opacity:.85;margin-bottom:10px;">Sales &middot; Inventory &middot; Outbound Logistics</div>
+  <h1 style="font-size:40px;line-height:1.15;font-weight:700;margin:0 0 14px;color:#ffffff;">Split Customer Deliveries</h1>
+  <p style="font-size:19px;line-height:1.55;max-width:760px;margin:0 0 24px;color:#ffffff;opacity:.95;">Give every sales order line its own expected delivery date, source location and warehouse. On confirmation Odoo creates one delivery order per day, location and warehouse, and keeps them in sync when plans change.</p>
+  <div>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">Odoo 16.0</span>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">Community &amp; Enterprise</span>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">18 automated tests</span>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">Arabic (ar_001) &amp; RTL</span>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">Technical name: sale_split_delivery</span>
+    <span style="display:inline-block;border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:6px 14px;margin:0 8px 8px 0;font-size:14px;">LGPL-3</span>
+  </div>
+</div>
+
+<!-- ============================== KEY NUMBERS ============================== -->
+<div style="display:flex;flex-wrap:wrap;margin:28px -8px 8px;">
+  <div style="flex:1 1 220px;margin:8px;background:#f6f4f6;border-radius:14px;padding:20px 22px;"><div style="font-size:30px;font-weight:700;color:#714B67;">3 criteria</div><div style="font-size:15px;color:#555;">Delivery date, source location and warehouse, enabled independently</div></div>
+  <div style="flex:1 1 220px;margin:8px;background:#eef6f6;border-radius:14px;padding:20px 22px;"><div style="font-size:30px;font-weight:700;color:#017E84;">1 new date</div><div style="font-size:15px;color:#555;"><b>Expected Delivery</b> on every order line, which Odoo 16 does not have</div></div>
+  <div style="flex:1 1 220px;margin:8px;background:#f6f4f6;border-radius:14px;padding:20px 22px;"><div style="font-size:30px;font-weight:700;color:#714B67;">1&ndash;3 steps</div><div style="font-size:15px;color:#555;">Works with one-step delivery and pick / pack / ship routes</div></div>
+  <div style="flex:1 1 220px;margin:8px;background:#eef6f6;border-radius:14px;padding:20px 22px;"><div style="font-size:30px;font-weight:700;color:#017E84;">0 empty</div><div style="font-size:15px;color:#555;">Delivery orders left empty after rescheduling are removed automatically</div></div>
+</div>
+
+<!-- ============================== WHY ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">Why this module</h2>
+<p style="font-size:16px;color:#555;margin:0 0 18px;">Customers rarely take everything on one day from one shelf. Standard Odoo 16 still plans the whole sales order as a single delivery.</p>
+<div style="display:flex;flex-wrap:wrap;margin:0 -10px;">
+  <div style="flex:1 1 440px;margin:10px;border:1px solid #f1d6d6;background:#fff8f8;border-radius:14px;padding:24px 26px;">
+    <h3 style="font-size:19px;font-weight:700;color:#b33939;margin:0 0 12px;">In standard Odoo 16</h3>
+    <ul style="font-size:15px;line-height:1.65;margin:0;padding-left:20px;color:#3a3a42;">
+      <li>Order lines have <b>no delivery date</b>; only one <b>Delivery Date</b> for the whole order.</li>
+      <li>All lines of an order land in <b>one delivery order</b>, whatever the customer agreed.</li>
+      <li>Every line is picked from the <b>warehouse stock location</b>; no per-line shelf or zone.</li>
+      <li>One <b>warehouse per order</b>; shipping one line from another warehouse means a second order.</li>
+      <li>Changing a date after confirmation <b>does not move</b> the line to another delivery.</li>
+      <li>Splitting by hand leaves <b>empty or half-filled</b> transfers behind.</li>
+    </ul>
+  </div>
+  <div style="flex:1 1 440px;margin:10px;border:1px solid #cfe7e7;background:#f4fbfb;border-radius:14px;padding:24px 26px;">
+    <h3 style="font-size:19px;font-weight:700;color:#017E84;margin:0 0 12px;">With this module</h3>
+    <ul style="font-size:15px;line-height:1.65;margin:0;padding-left:20px;color:#3a3a42;">
+      <li><b>Expected Delivery</b> on each line, following the order Delivery Date and editable per line.</li>
+      <li>One delivery order <b>per delivery day</b>, with the line date as the move deadline.</li>
+      <li><b>Source Location</b> per line: each shelf or zone gets its own delivery or pick.</li>
+      <li><b>Delivery Warehouse</b> per line: one order can ship from several warehouses of the company.</li>
+      <li>Edits after confirmation <b>re-route pending moves</b> to the matching delivery and redo the reservation.</li>
+      <li>Delivery orders left empty are <b>deleted</b>, with a note in the order chatter.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================== HOW IT WORKS ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">How it works</h2>
+<p style="font-size:16px;color:#555;margin:0 0 18px;">Four steps, all inside the standard sales and inventory flow.</p>
+<div style="display:flex;flex-wrap:wrap;margin:0 -8px;">
+  <div style="flex:1 1 200px;margin:8px;border-radius:12px;border:1px solid #e3dde2;padding:18px;"><div style="width:34px;height:34px;border-radius:50%;background:#714B67;color:#fff;font-weight:700;text-align:center;line-height:34px;margin-bottom:10px;">1</div><div style="font-weight:700;margin-bottom:4px;">Enable</div><div style="font-size:14px;color:#555;">Turn on <b>Split Customer Deliveries</b> in Sales settings and pick one or more criteria.</div></div>
+  <div style="flex:1 1 200px;margin:8px;border-radius:12px;border:1px solid #e3dde2;padding:18px;"><div style="width:34px;height:34px;border-radius:50%;background:#714B67;color:#fff;font-weight:700;text-align:center;line-height:34px;margin-bottom:10px;">2</div><div style="font-weight:700;margin-bottom:4px;">Plan the lines</div><div style="font-size:14px;color:#555;">Set the <b>Expected Delivery</b>, <b>Source Location</b> and <b>Delivery Warehouse</b> on each quotation line.</div></div>
+  <div style="flex:1 1 200px;margin:8px;border-radius:12px;border:1px solid #e3dde2;padding:18px;"><div style="width:34px;height:34px;border-radius:50%;background:#714B67;color:#fff;font-weight:700;text-align:center;line-height:34px;margin-bottom:10px;">3</div><div style="font-weight:700;margin-bottom:4px;">Confirm</div><div style="font-size:14px;color:#555;">Odoo creates one delivery order per combination of day, location and warehouse.</div></div>
+  <div style="flex:1 1 200px;margin:8px;border-radius:12px;border:1px solid #cfe7e7;background:#f4fbfb;padding:18px;"><div style="width:34px;height:34px;border-radius:50%;background:#017E84;color:#fff;font-weight:700;text-align:center;line-height:34px;margin-bottom:10px;">4</div><div style="font-weight:700;margin-bottom:4px;">Reschedule freely</div><div style="font-size:14px;color:#555;">Change a date or location later: moves follow, empty deliveries disappear.</div></div>
+</div>
+
+<!-- ============================== FEATURES ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">Features</h2>
+<p style="font-size:16px;color:#555;margin:0 0 4px;">Screenshots use one demo order, <b>S00042</b> for <b>Al Noor Trading Co.</b>: five office-furniture lines over three dates, two shelves of the <b>Jeddah Main</b> warehouse and the <b>Riyadh DC</b> warehouse.</p>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Settings</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">One setting, three independent criteria</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;"><b>Sales &rsaquo; Configuration &rsaquo; Settings &rsaquo; Outbound Logistics</b>. Tick <b>Split Customer Deliveries</b>, then tick <b>Split by Delivery Date</b>, <b>Split by Source Location</b> and/or <b>Split by Warehouse</b>. Settings are stored per company. Ticking the main option with nothing selected pre-selects the date criterion. With it unticked, Odoo behaves exactly as standard.</p>
+  <img src="ssd_01_settings.png" alt="Sales settings with the Outbound Logistics section and the three split criteria" style="width:100%;max-width:1000px;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+</div>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Feature 1</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">An Expected Delivery date on every order line</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;">The sales counterpart of the purchase line <b>Expected Arrival</b>. It takes the order&rsquo;s <b>Delivery Date</b> and can be changed per line; changing the order Delivery Date again pushes the new date to all lines. Left empty, Odoo&rsquo;s standard rule applies (order date + product lead time), so dates never go stale between quotation and confirmation. Line dates also drive the order&rsquo;s <b>Expected Date</b>: earliest line for <b>As soon as possible</b>, latest for <b>When all products are ready</b>. The <b>Delivery Warehouse</b> and <b>Source Location</b> columns default to the order warehouse and its stock location. Each column only appears when its criterion is enabled.</p>
+  <img src="ssd_02_order_lines.png" alt="Confirmed sales order with Delivery Warehouse, Source Location and Expected Delivery columns on the lines" style="width:100%;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+</div>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Feature 2</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">One delivery per day, location and warehouse</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;">On confirmation, S00042 becomes five delivery orders instead of one: two days &times; two shelves in Jeddah, plus Riyadh. Each delivery picks from its own <b>Source Location</b>, carries the line date as <b>Deadline</b> and shows its <b>Split Delivery Date</b>. Lines planned on the same local day (salesperson time zone) share a delivery.</p>
+  <img src="ssd_03_deliveries.png" alt="Five delivery orders generated for S00042 with their source locations and split delivery dates" style="width:100%;margin-bottom:22px;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+  <div style="font-size:13px;color:#777;margin:-16px 0 22px;"><b>Split Delivery Date</b> is an optional list column (hidden by default) and a <b>Group By</b> option in the transfers search.</div>
+  <img src="ssd_04_picking_form.png" alt="Delivery order form showing the source shelf and the Split Delivery Date field" style="width:100%;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+  <div style="overflow-x:auto;margin-top:22px;">
+  <table style="width:100%;min-width:520px;border-collapse:collapse;font-size:15px;">
+    <thead><tr style="background:#714B67;color:#fff;"><th style="text-align:left;padding:10px 14px;">Delivery</th><th style="text-align:left;padding:10px 14px;">Day</th><th style="text-align:left;padding:10px 14px;">From</th><th style="text-align:left;padding:10px 14px;">Lines</th></tr></thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;">WH/OUT/00031</td><td style="padding:10px 14px;">11/12/2026</td><td style="padding:10px 14px;">WH/Stock/Shelf A</td><td style="padding:10px 14px;">Ergonomic Office Chair</td></tr>
+      <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;">WH/OUT/00032</td><td style="padding:10px 14px;">11/12/2026</td><td style="padding:10px 14px;">WH/Stock/Shelf B</td><td style="padding:10px 14px;">Steel Filing Cabinet</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;">WH/OUT/00033</td><td style="padding:10px 14px;">11/19/2026</td><td style="padding:10px 14px;">WH/Stock/Shelf A</td><td style="padding:10px 14px;">LED Desk Lamp</td></tr>
+      <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;">WH/OUT/00034</td><td style="padding:10px 14px;">11/19/2026</td><td style="padding:10px 14px;">WH/Stock/Shelf B</td><td style="padding:10px 14px;">Sit-Stand Desk</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;">RYD/OUT/00007</td><td style="padding:10px 14px;">11/26/2026</td><td style="padding:10px 14px;">RYD/Stock</td><td style="padding:10px 14px;">Conference Table</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Feature 3</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">Reschedule after confirmation, no clean-up needed</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;">Here the customer wants the <b>Sit-Stand Desk</b> a week earlier. Changing its <b>Expected Delivery</b> to 11/12 moves its pending move into <b>WH/OUT/00032</b> (same day, same shelf), updates the deadline, and deletes the now-empty <b>WH/OUT/00034</b>. The order counts <b>4 Delivery</b> and the chatter logs what was removed. The same happens when you change a line&rsquo;s <b>Source Location</b> (reservation is released and redone on the new shelf) or the order&rsquo;s <b>Delivery Date</b>.</p>
+  <img src="ssd_05_reschedule.png" alt="Sales order after moving the Sit-Stand Desk to an earlier date, with the chatter note about the removed empty delivery" style="width:100%;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+  <div style="background:#f4fbfb;border-left:4px solid #017E84;border-radius:8px;padding:16px 20px;font-size:15px;line-height:1.6;margin-top:14px;"><b>Rule:</b> only moves that can still be re-planned are touched: not done, not cancelled, nothing processed yet, and belonging to this order&rsquo;s procurement group. A partly picked delivery stays exactly as it is.</div>
+</div>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Feature 4</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">Pick / pack / ship routes</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;">In a multi-step warehouse (here <b>Dammam Hub</b>, Pick + Ship), the split keys travel down the whole chain. The <b>Pick</b> step is split by day and by rack, because that is where the source location matters. The <b>Delivery Orders</b> step leaves from the common <b>Output</b> location and is split by day only.</p>
+  <img src="ssd_06_multistep.png" alt="Transfers of a two-step order grouped by operation type: three picks per rack and day, two deliveries per day" style="width:100%;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+</div>
+
+<div style="margin:44px 0 0;">
+  <div style="font-size:13px;font-weight:700;color:#017E84;letter-spacing:1px;text-transform:uppercase;">Feature 5</div>
+  <h3 style="font-size:23px;font-weight:700;margin:4px 0 8px;">Full Arabic translation, right-to-left ready</h3>
+  <p style="font-size:15px;line-height:1.6;color:#555;margin:0 0 14px;">Every label, help text, setting and message is translated in <b>ar_001</b>. Views use standard Odoo layout only, so they mirror correctly in right-to-left languages.</p>
+  <img src="ssd_07_arabic.png" alt="Sales order lines in Arabic with the new delivery columns, right-to-left" style="width:100%;border:1px solid #e1e1e6;border-radius:10px;box-shadow:0 6px 24px rgba(30,30,60,.10);"/>
+</div>
+
+<!-- ============================== CORNER CASES ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">Built for real-world corner cases</h2>
+<p style="font-size:16px;color:#555;margin:0 0 18px;">How the module behaves in the situations that usually break delivery planning.</p>
+<div style="display:flex;flex-wrap:wrap;margin:0 -8px;font-size:15px;line-height:1.55;">
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Quantity increased after confirmation</b><br/><span style="color:#555;">The extra quantity joins the delivery of the line&rsquo;s own day and location, not the first delivery Odoo finds.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Partly processed deliveries</b><br/><span style="color:#555;">Moves with a done quantity or in a done delivery are never moved or deleted.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Lines without a date</b><br/><span style="color:#555;">They use Odoo&rsquo;s standard date (order date + lead time) and group together as usual.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Wrong location for the warehouse</b><br/><span style="color:#555;">A source location must be an internal location of the line&rsquo;s warehouse; anything else is refused with a clear message.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Warehouse change on a confirmed line</b><br/><span style="color:#555;">Blocked once deliveries exist, so no transfer is left on the wrong operation type.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Purchases, returns and manual transfers</b><br/><span style="color:#555;">Untouched: only moves of the sales order&rsquo;s own procurement group are re-planned; MTO purchase receipts and customer returns are excluded.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Time zones</b><br/><span style="color:#555;">Lines are grouped by calendar day in the salesperson&rsquo;s time zone, so 23:00 and 08:00 local are not merged by UTC.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Multi-company</b><br/><span style="color:#555;">Settings are per company; warehouses and locations are company-checked on the line.</span></div>
+  <div style="flex:1 1 320px;margin:8px;padding:16px 18px;border:1px solid #e8e8ee;border-radius:12px;"><b>Large databases</b><br/><span style="color:#555;">The new line columns are created and filled in SQL before install, so existing order lines are not recomputed one by one.</span></div>
+</div>
+
+<!-- ============================== SECURITY ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">Security</h2>
+<p style="font-size:16px;color:#555;margin:0 0 18px;">No new groups or models: standard Sales and Inventory access applies.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+  <thead><tr style="background:#714B67;color:#fff;"><th style="text-align:left;padding:10px 14px;">Who</th><th style="text-align:left;padding:10px 14px;">Can</th></tr></thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;">Sales / Administrator</td><td style="padding:10px 14px;">Turn the feature and its criteria on or off in Sales settings</td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;">Sales / User</td><td style="padding:10px 14px;">Set dates, source locations and warehouses on their order lines; rescheduling updates deliveries with system rights, the same way confirming an order does</td></tr>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;">Inventory / User</td><td style="padding:10px 14px;">See <b>Split Delivery Date</b> on transfers and group by it</td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;">Multi-company</td><td style="padding:10px 14px;">Each company keeps its own settings; lines only accept warehouses and locations of the order&rsquo;s company</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================== TECHNICAL ============================== -->
+<h2 style="font-size:28px;font-weight:700;margin:40px 0 6px;color:#2b2b33;">Technical details</h2>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+  <tbody>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;width:240px;color:#777;">Odoo version</td><td style="padding:10px 14px;">16.0, Community and Enterprise</td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;width:240px;color:#777;">Depends on</td><td style="padding:10px 14px;"><code>sale_stock</code></td></tr>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;width:240px;color:#777;">Python dependency</td><td style="padding:10px 14px;">None</td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;width:240px;color:#777;">Settings</td><td style="padding:10px 14px;">Sales &rsaquo; Configuration &rsaquo; Settings &rsaquo; Outbound Logistics</td></tr>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;width:240px;color:#777;">New fields</td><td style="padding:10px 14px;">Order line: <code>expected_delivery_date</code>, <code>delivery_warehouse_id</code>, <code>delivery_location_id</code> &middot; Transfer and move: <code>sale_split_date</code> &middot; Move: <code>sale_split_location_id</code></td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;width:240px;color:#777;">Extended models</td><td style="padding:10px 14px;"><code>res.company</code>, <code>res.config.settings</code>, <code>sale.order</code>, <code>sale.order.line</code>, <code>stock.move</code>, <code>stock.picking</code>, <code>stock.rule</code> (no new models)</td></tr>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;width:240px;color:#777;">Automated tests</td><td style="padding:10px 14px;">18: line date behaviour, split by date / location / warehouse alone and combined, pick + ship route, rescheduling and empty-delivery removal, quantity increase, processed moves, guards, non-sales transfers</td></tr>
+    <tr style="border-bottom:1px solid #eee;background:#fafafa;"><td style="padding:10px 14px;width:240px;color:#777;">Translations</td><td style="padding:10px 14px;">Arabic (<code>ar_001</code>) and a <code>.pot</code> template</td></tr>
+    <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 14px;width:240px;color:#777;">License</td><td style="padding:10px 14px;">LGPL-3</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================== CONTACT ============================== -->
+<div style="margin:52px 0 40px;background:linear-gradient(120deg,#714B67 0%,#017E84 100%);border-radius:18px;padding:36px 40px;color:#fff;">
+  <h2 style="font-size:26px;font-weight:700;margin:0 0 8px;color:#fff;">Support &amp; customization</h2>
+  <p style="font-size:16px;line-height:1.6;margin:0 0 20px;color:#fff;opacity:.95;">Questions, a demo, or an adaptation to your own process? Get in touch.</p>
+  <a href="mailto:ibrahim.yahiah@gmail.com" style="display:inline-block;background:#fff;color:#714B67;font-weight:700;text-decoration:none;border-radius:8px;padding:12px 22px;margin:0 12px 10px 0;">&#9993;  ibrahim.yahiah@gmail.com</a>
+  <a href="https://www.linkedin.com/in/ibrahim-yahia" target="_blank" rel="noopener" style="display:inline-block;border:2px solid #fff;color:#fff;font-weight:700;text-decoration:none;border-radius:8px;padding:10px 22px;margin:0 0 10px 0;">LinkedIn: Ibrahim Yahia</a>
+  <p style="font-size:13px;margin:14px 0 0;opacity:.8;color:#fff;">Author: Ibrahim Yahia &middot; License: LGPL-3</p>
+</div>
+
+</section>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_sale_split_delivery" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.sale.split.delivery</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="sale_split_date"
+                       attrs="{'invisible': [('sale_split_date', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vpicktree_inherit_sale_split_delivery" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit.sale.split.delivery</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='scheduled_date']" position="after">
+                <field name="sale_split_date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search_inherit_sale_split_delivery" model="ir.ui.view">
+        <field name="name">stock.picking.search.inherit.sale.split.delivery</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter name="groupby_sale_split_date" string="Split Delivery Date"
+                        context="{'group_by': 'sale_split_date'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
