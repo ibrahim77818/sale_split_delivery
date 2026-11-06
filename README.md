@@ -1,10 +1,10 @@
 # Split Customer Deliveries (`sale_split_delivery`)
 
-![Odoo 17.0](https://img.shields.io/badge/Odoo-17.0-714B67)
+![Odoo 18.0](https://img.shields.io/badge/Odoo-18.0-714B67)
 ![Community & Enterprise](https://img.shields.io/badge/edition-Community%20%26%20Enterprise-017E84)
 ![License: LGPL-3](https://img.shields.io/badge/license-LGPL--3-blue)
 
-Odoo 17.0 module that gives every sales order line its own **Expected Delivery** date, **Source Location** and **Delivery Warehouse**, and splits the delivery orders of a confirmed sales order by those criteria. It is the sales counterpart of `purchase_split_grn`.
+Odoo 18.0 module that gives every sales order line its own **Expected Delivery** date, **Source Location** and **Delivery Warehouse**, and splits the delivery orders of a confirmed sales order by those criteria. It is the sales counterpart of `purchase_split_grn`.
 
 ![Banner](sale_split_delivery/static/description/banner.png)
 
@@ -23,7 +23,7 @@ Odoo 17.0 module that gives every sales order line its own **Expected Delivery**
 
 ## Installation
 
-1. Put the `sale_split_delivery` folder (or this repository, checked out on the `17.0` branch) in your addons path.
+1. Put the `sale_split_delivery` folder (or this repository, checked out on the `18.0` branch) in your addons path.
 2. Update the apps list and install **Split Customer Deliveries**.
 
 It depends only on `sale_stock`.
@@ -41,11 +41,11 @@ odoo-bin -d <database> -i sale_split_delivery --test-tags /sale_split_delivery -
 | Branch | Odoo version | |
 |---|---|---|
 | [`16.0`](../../tree/16.0) | Odoo 16.0 |  |
-| [`17.0`](../../tree/17.0) | Odoo 17.0 | **this branch** |
-| [`18.0`](../../tree/18.0) | Odoo 18.0 |  |
+| [`17.0`](../../tree/17.0) | Odoo 17.0 |  |
+| [`18.0`](../../tree/18.0) | Odoo 18.0 | **this branch** |
 | [`19.0`](../../tree/19.0) | Odoo 19.0 |  |
 
-Notes for this version: Settings use the v17 `<block>`/`<setting>` layout; view modifiers are Python expressions; moves already worked on are detected with **Picked**; the **Locked** order flag makes the line fields read-only.
+Notes for this version: Views use `<list>` instead of `<tree>`; tests create storable products with `type="consu"` and `is_storable=True`.
 
 ## Author & support
 

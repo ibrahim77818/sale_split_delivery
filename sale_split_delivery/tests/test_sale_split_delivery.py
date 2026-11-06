@@ -37,9 +37,9 @@ class TestSaleSplitDelivery(TransactionCase):
 
         cls.partner = cls.env['res.partner'].create({'name': 'Split Customer'})
         Product = cls.env['product.product']
-        cls.product_1 = Product.create({'name': 'Split Product 1', 'detailed_type': 'product'})
-        cls.product_2 = Product.create({'name': 'Split Product 2', 'detailed_type': 'product'})
-        cls.product_3 = Product.create({'name': 'Split Product 3', 'detailed_type': 'product'})
+        cls.product_1 = Product.create({'name': 'Split Product 1', 'type': 'consu', 'is_storable': True})
+        cls.product_2 = Product.create({'name': 'Split Product 2', 'type': 'consu', 'is_storable': True})
+        cls.product_3 = Product.create({'name': 'Split Product 3', 'type': 'consu', 'is_storable': True})
 
         Quant = cls.env['stock.quant']
         for product in (cls.product_1, cls.product_2, cls.product_3):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Split Customer Deliveries (Date, Location & Warehouse)',
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Sales/Sales',
     'summary': 'Split sales order delivery orders by line expected delivery '
                'date, source location and/or warehouse',

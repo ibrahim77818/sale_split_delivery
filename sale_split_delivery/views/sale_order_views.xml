@@ -13,7 +13,7 @@
             </xpath>
 
             <!-- Order lines: list -->
-            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+            <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
                 <field name="delivery_warehouse_id" optional="show"
                        options="{'no_create': True}"
                        domain="[('company_id', '=', parent.company_id)]"

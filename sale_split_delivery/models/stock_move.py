@@ -42,12 +42,12 @@ class StockMove(models.Model):
         return values
 
     def _search_picking_for_assignation_domain(self):
-        # Odoo 17 builds the "existing picking to join" domain in this hook;
+        # Odoo 17+ builds the "existing picking to join" domain in this hook;
         # adding the split day keeps each day in its own delivery order.
         parent = super()
         if hasattr(parent, '_search_picking_for_assignation_domain'):
             domain = parent._search_picking_for_assignation_domain()
-        else:  # safety net for 17.0 revisions without the hook
+        else:  # safety net for revisions without the hook
             domain = self._sale_split_fallback_domain()
         return domain + [('sale_split_date', '=', self.sale_split_date or False)]
 
