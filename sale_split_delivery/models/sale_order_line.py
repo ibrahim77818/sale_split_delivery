@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -73,7 +73,7 @@ class SaleOrderLine(models.Model):
                 continue
             if location.usage != 'internal' or not _is_child_of(
                     location, warehouse.view_location_id):
-                raise ValidationError(_(
+                raise ValidationError(self.env._(
                     'The source location "%(location)s" of the order line '
                     '"%(line)s" must be an internal location of the '
                     'warehouse "%(warehouse)s".',
@@ -129,8 +129,8 @@ class SaleOrderLine(models.Model):
             return self.expected_delivery_date
         return super()._expected_date()
 
-    def _prepare_procurement_values(self, group_id=False):
-        values = super()._prepare_procurement_values(group_id=group_id)
+    def _prepare_procurement_values(self, *args, **kwargs):
+        values = super()._prepare_procurement_values(*args, **kwargs)
         company = self._sale_split_company()
         if not company.sale_split_delivery:
             return values
@@ -154,7 +154,7 @@ class SaleOrderLine(models.Model):
                 if (line.state == 'sale'
                         and line.delivery_warehouse_id.id != vals['delivery_warehouse_id']
                         and line.move_ids.filtered(lambda m: m.state != 'cancel')):
-                    raise UserError(_(
+                    raise UserError(self.env._(
                         'The warehouse of the confirmed order line "%s" '
                         'cannot be changed because delivery transfers '
                         'already exist for it.', line.name))
@@ -168,17 +168,19 @@ class SaleOrderLine(models.Model):
     # ------------------------------------------------------------------
     def _sale_split_pending_moves(self):
         """Outgoing move chain of the line (ship, pack, pick) that can still
-        be re-planned: same procurement group, nothing processed yet."""
+        be re-planned: same stock reference, nothing processed yet."""
         self.ensure_one()
-        group = self.order_id.procurement_group_id
         moves = self.env['stock.move'].sudo()
         todo = self.move_ids.sudo().filtered(
             lambda m: m.location_dest_id.usage == 'customer'
             and not m.origin_returned_move_id)
+        # Odoo 19 links the moves of one sales order through stock
+        # references (reference_ids) instead of a procurement group.
+        references = todo.reference_ids
         while todo:
             moves |= todo
             todo = todo.move_orig_ids.filtered(
-                lambda m: m.group_id == group) - moves
+                lambda m: m.reference_ids & references) - moves
         return moves.filtered(
             lambda m: m.state not in ('done', 'cancel')
             and not m.picked
@@ -259,6 +261,6 @@ class SaleOrderLine(models.Model):
                 by_order.setdefault(picking.sale_id, []).append(picking.name)
         empty.unlink()
         for order, names in by_order.items():
-            order.message_post(body=_(
+            order.message_post(body=self.env._(
                 'Empty delivery transfers removed after rescheduling: %s',
                 ', '.join(names)))

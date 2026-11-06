@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from odoo.tools import SQL
+
 _logger = logging.getLogger(__name__)
 
 
@@ -13,23 +15,23 @@ def pre_init_hook(env):
     """
     cr = env.cr
     _logger.info("sale_split_delivery: pre-filling sale.order.line columns")
-    cr.execute("""
+    cr.execute(SQL("""
         ALTER TABLE sale_order_line
             ADD COLUMN IF NOT EXISTS expected_delivery_date timestamp,
             ADD COLUMN IF NOT EXISTS delivery_warehouse_id integer,
             ADD COLUMN IF NOT EXISTS delivery_location_id integer
-    """)
-    cr.execute("""
+    """))
+    cr.execute(SQL("""
         UPDATE sale_order_line sol
            SET expected_delivery_date = so.commitment_date,
                delivery_warehouse_id = so.warehouse_id
           FROM sale_order so
          WHERE so.id = sol.order_id
            AND sol.display_type IS NULL
-    """)
-    cr.execute("""
+    """))
+    cr.execute(SQL("""
         UPDATE sale_order_line sol
            SET delivery_location_id = wh.lot_stock_id
           FROM stock_warehouse wh
          WHERE wh.id = sol.delivery_warehouse_id
-    """)
+    """))

@@ -83,6 +83,10 @@ class TestSaleSplitDelivery(TransactionCase):
             order_line=line_commands,
         ))
 
+    def _move_uom_field(self):
+        fields_ = self.env['stock.move']._fields
+        return 'product_uom_id' if 'product_uom_id' in fields_ else 'product_uom'
+
     def _deliveries(self, order, picking_type=None):
         domain = [('sale_id', '=', order.id), ('state', '!=', 'cancel')]
         if picking_type:
@@ -92,8 +96,11 @@ class TestSaleSplitDelivery(TransactionCase):
     def _picking_of(self, line, picking_type=None):
         moves = line.move_ids
         if picking_type:
-            moves = line.order_id.procurement_group_id.stock_move_ids.filtered(
-                lambda m: m.picking_type_id == picking_type and m.product_id == line.product_id)
+            moves = self.env['stock.move'].search([
+                ('picking_id.sale_id', '=', line.order_id.id),
+                ('picking_type_id', '=', picking_type.id),
+                ('product_id', '=', line.product_id.id),
+            ])
         return moves.picking_id
 
     # ------------------------------------------------------------------
@@ -349,7 +356,7 @@ class TestSaleSplitDelivery(TransactionCase):
             'location_dest_id': self.stock.id,
             'move_ids': [(0, 0, {
                 'name': p.name, 'product_id': p.id, 'product_uom_qty': 1.0,
-                'product_uom': p.uom_id.id, 'location_id': supplier.id,
+                self._move_uom_field(): p.uom_id.id, 'location_id': supplier.id,
                 'location_dest_id': self.stock.id,
             }) for p in (self.product_1, self.product_2)],
         })

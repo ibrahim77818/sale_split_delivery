@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models
-from odoo.tools.misc import groupby
 
 
 class StockMove(models.Model):
@@ -25,13 +24,15 @@ class StockMove(models.Model):
         return values
 
     def _assign_picking(self):
-        # The native grouping key (group, locations, picking type) cannot
-        # carry a date in every 16.0 revision, so batch by split day first and
-        # let the standard engine do the rest within each batch.
-        if len(set(self.mapped('sale_split_date'))) <= 1:
+        # Batch by split day first, then let the standard engine group each
+        # batch by stock reference, locations and operation type.
+        batches = {}
+        for move in self:
+            batches.setdefault(move.sale_split_date or False, []).append(move.id)
+        if len(batches) <= 1:
             return super()._assign_picking()
-        for _split_date, moves in groupby(self, key=lambda m: m.sale_split_date):
-            super(StockMove, self.env['stock.move'].concat(*moves))._assign_picking()
+        for move_ids in batches.values():
+            super(StockMove, self.browse(move_ids))._assign_picking()
         return True
 
     def _get_new_picking_values(self):
@@ -42,36 +43,6 @@ class StockMove(models.Model):
         return values
 
     def _search_picking_for_assignation_domain(self):
-        # Odoo 17+ builds the "existing picking to join" domain in this hook;
-        # adding the split day keeps each day in its own delivery order.
-        parent = super()
-        if hasattr(parent, '_search_picking_for_assignation_domain'):
-            domain = parent._search_picking_for_assignation_domain()
-        else:  # safety net for revisions without the hook
-            domain = self._sale_split_fallback_domain()
+        # Only join an existing delivery order planned for the same day.
+        domain = super()._search_picking_for_assignation_domain()
         return domain + [('sale_split_date', '=', self.sale_split_date or False)]
-
-    def _sale_split_fallback_domain(self):
-        self.ensure_one()
-        domain = [
-            ('group_id', '=', self.group_id.id),
-            ('location_id', '=', self.location_id.id),
-            ('location_dest_id', '=', self.location_dest_id.id),
-            ('picking_type_id', '=', self.picking_type_id.id),
-            ('printed', '=', False),
-            ('state', 'in', ['draft', 'confirmed', 'waiting',
-                             'partially_available', 'assigned']),
-        ]
-        if self.partner_id and not self.group_id:
-            domain.append(('partner_id', '=', self.partner_id.id))
-        return domain
-
-    def _search_picking_for_assignation(self):
-        self.ensure_one()
-        picking = super()._search_picking_for_assignation()
-        split_date = self.sale_split_date or False
-        if not picking or (picking.sale_split_date or False) == split_date:
-            return picking
-        # Only reached if the standard lookup ignored the domain hook above.
-        return self.env['stock.picking'].search(
-            self._search_picking_for_assignation_domain(), limit=1)
