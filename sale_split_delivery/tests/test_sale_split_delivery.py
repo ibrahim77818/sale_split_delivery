@@ -317,7 +317,7 @@ class TestSaleSplitDelivery(TransactionCase):
         order.action_confirm()
         line_2 = order.order_line[1]
         picking_2 = self._picking_of(line_2)
-        picking_2.move_ids.quantity_done = 1.0
+        picking_2.move_ids.write({'quantity': 1.0, 'picked': True})
         picking_2._action_done()
         line_2.expected_delivery_date = self.date_1
         self.assertTrue(picking_2.exists())

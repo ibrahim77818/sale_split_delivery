@@ -4,13 +4,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-def pre_init_hook(cr):
+def pre_init_hook(env):
     """Create and fill the new stored computed columns of sale.order.line in SQL.
 
     When the column already exists the ORM does not recompute the field for
     every existing line at install time, which keeps installation fast on
     databases with many sales order lines.
     """
+    cr = env.cr
     _logger.info("sale_split_delivery: pre-filling sale.order.line columns")
     cr.execute("""
         ALTER TABLE sale_order_line

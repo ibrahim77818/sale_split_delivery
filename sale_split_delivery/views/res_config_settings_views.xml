@@ -5,35 +5,27 @@
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@data-key='sale_management']" position="inside">
-                <h2>Outbound Logistics</h2>
-                <div class="row mt16 o_settings_container" name="sale_split_delivery_container">
-                    <div class="col-12 col-lg-6 o_setting_box" id="sale_split_delivery_setting">
-                        <div class="o_setting_left_pane">
-                            <field name="sale_split_delivery"/>
-                        </div>
-                        <div class="o_setting_right_pane">
-                            <label for="sale_split_delivery"/>
-                            <div class="text-muted">
-                                Split delivery orders of confirmed sales orders by line delivery date, source location and/or warehouse.
+            <xpath expr="//app[@name='sale_management']" position="inside">
+                <block title="Outbound Logistics" name="sale_split_delivery_container">
+                    <setting id="sale_split_delivery_setting"
+                             help="Split delivery orders of confirmed sales orders by line delivery date, source location and/or warehouse.">
+                        <field name="sale_split_delivery"/>
+                        <div class="content-group" invisible="not sale_split_delivery">
+                            <div class="mt16">
+                                <field name="sale_split_by_date" class="oe_inline"/>
+                                <label for="sale_split_by_date" class="o_light_label"/>
                             </div>
-                            <div class="content-group" attrs="{'invisible': [('sale_split_delivery', '=', False)]}">
-                                <div class="mt16">
-                                    <field name="sale_split_by_date" class="oe_inline"/>
-                                    <label for="sale_split_by_date" class="o_light_label"/>
-                                </div>
-                                <div>
-                                    <field name="sale_split_by_location" class="oe_inline"/>
-                                    <label for="sale_split_by_location" class="o_light_label"/>
-                                </div>
-                                <div>
-                                    <field name="sale_split_by_warehouse" class="oe_inline"/>
-                                    <label for="sale_split_by_warehouse" class="o_light_label"/>
-                                </div>
+                            <div>
+                                <field name="sale_split_by_location" class="oe_inline"/>
+                                <label for="sale_split_by_location" class="o_light_label"/>
+                            </div>
+                            <div>
+                                <field name="sale_split_by_warehouse" class="oe_inline"/>
+                                <label for="sale_split_by_warehouse" class="o_light_label"/>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </setting>
+                </block>
             </xpath>
         </field>
     </record>

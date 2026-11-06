@@ -41,26 +41,37 @@ class StockMove(models.Model):
             values['sale_split_date'] = split_dates.pop()
         return values
 
+    def _search_picking_for_assignation_domain(self):
+        # Odoo 17 builds the "existing picking to join" domain in this hook;
+        # adding the split day keeps each day in its own delivery order.
+        parent = super()
+        if hasattr(parent, '_search_picking_for_assignation_domain'):
+            domain = parent._search_picking_for_assignation_domain()
+        else:  # safety net for 17.0 revisions without the hook
+            domain = self._sale_split_fallback_domain()
+        return domain + [('sale_split_date', '=', self.sale_split_date or False)]
+
+    def _sale_split_fallback_domain(self):
+        self.ensure_one()
+        domain = [
+            ('group_id', '=', self.group_id.id),
+            ('location_id', '=', self.location_id.id),
+            ('location_dest_id', '=', self.location_dest_id.id),
+            ('picking_type_id', '=', self.picking_type_id.id),
+            ('printed', '=', False),
+            ('state', 'in', ['draft', 'confirmed', 'waiting',
+                             'partially_available', 'assigned']),
+        ]
+        if self.partner_id and not self.group_id:
+            domain.append(('partner_id', '=', self.partner_id.id))
+        return domain
+
     def _search_picking_for_assignation(self):
         self.ensure_one()
         picking = super()._search_picking_for_assignation()
         split_date = self.sale_split_date or False
         if not picking or (picking.sale_split_date or False) == split_date:
             return picking
-        # The standard lookup matched a delivery order of another day: search
-        # again with the same criteria plus the split day.
-        domain = [
-            ('group_id', '=', picking.group_id.id),
-            ('location_id', '=', picking.location_id.id),
-            ('location_dest_id', '=', picking.location_dest_id.id),
-            ('picking_type_id', '=', picking.picking_type_id.id),
-            ('printed', '=', False),
-            ('immediate_transfer', '=', False),
-            ('state', 'in', ['draft', 'confirmed', 'waiting',
-                             'partially_available', 'assigned']),
-            ('sale_split_date', '=', split_date),
-        ]
-        if self.partner_id and (self.location_id.usage == 'transit'
-                                or self.location_dest_id.usage == 'transit'):
-            domain.append(('partner_id', '=', self.partner_id.id))
-        return self.env['stock.picking'].search(domain, limit=1)
+        # Only reached if the standard lookup ignored the domain hook above.
+        return self.env['stock.picking'].search(
+            self._search_picking_for_assignation_domain(), limit=1)

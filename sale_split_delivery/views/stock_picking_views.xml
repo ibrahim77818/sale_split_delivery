@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="sale_split_date"
-                       attrs="{'invisible': [('sale_split_date', '=', False)]}"/>
+                       invisible="not sale_split_date"/>
             </xpath>
         </field>
     </record>

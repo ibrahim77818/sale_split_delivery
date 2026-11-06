@@ -151,7 +151,7 @@ class SaleOrderLine(models.Model):
     def write(self, vals):
         if 'delivery_warehouse_id' in vals:
             for line in self:
-                if (line.state in ('sale', 'done')
+                if (line.state == 'sale'
                         and line.delivery_warehouse_id.id != vals['delivery_warehouse_id']
                         and line.move_ids.filtered(lambda m: m.state != 'cancel')):
                     raise UserError(_(
@@ -181,7 +181,7 @@ class SaleOrderLine(models.Model):
                 lambda m: m.group_id == group) - moves
         return moves.filtered(
             lambda m: m.state not in ('done', 'cancel')
-            and not m.quantity_done
+            and not m.picked
             and m.picking_id.state not in ('done', 'cancel'))
 
     def _sale_split_resync_moves(self):
